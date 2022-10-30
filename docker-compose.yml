@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  java-maven:
+    image: registry.gitlab.com/sarwandria/simple-java-maven:${GET_COMMIT_HASH}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50000k"
+        max-file: "5"
+    ports:
+      - 82:8081
+    networks:
+      - internal-apps
+    deploy:
+      resources:
+        reservations:
+          cpus: '0.1'
+          memory: 300M
+      replicas: 2
+      update_config:
+        parallelism: 1
+        order: start-first
+        failure_action: rollback
+        delay: 10s
+      rollback_config:
+        parallelism: 0
+        order: stop-first
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+networks:
+  internal-apps:
+    external: true
