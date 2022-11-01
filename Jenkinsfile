@@ -42,12 +42,17 @@ node {
                 docker.image("registry.gitlab.com/sarwandria/simple-java-maven-app:${BUILD_NUMBER}").push("${BUILD_NUMBER}")
             }
         }
+        stage('Manual Approval'){
+            input(message: "Lanjutkan ke tahap Deploy?")
+        }
         stage('Deploy') {
+
             // Deploy to docker swarm cluster
-            sh '''
+        sh '''
                 export DOCKER_TLS_VERIFY=
-                docker -H tcp://18.142.118.155:2375 stack deploy simple-java-maven-app -c docker-compose.yml --with-registry-auth --resolve-image=always
+                docker -H tcp://54.169.69.77:62376 stack deploy spring-boot-prod -c docker-compose.yml --with-registry-auth --resolve-image=always
             '''
+         sleep(60)
         }
     }
  }
