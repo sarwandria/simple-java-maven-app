@@ -11,4 +11,5 @@ USER app1:app1
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} /app/java-maven.jar
 WORKDIR /app
+EXPOSE 8083
 ENTRYPOINT ["java","-jar","java-maven.jar"]

@@ -32,7 +32,11 @@ public class AppTest
     @Test
     public void testAppMain()
     {
-        App.main(null);
+        try {
+            App.main(null);
+        }
+        catch(IOException e) {
+        }
         try {
             assertEquals("Hello World!" + System.getProperty("line.separator"), outContent.toString());
         } catch (AssertionError e) {
